@@ -6,8 +6,14 @@
     "background": {
         "service_worker": "./scripts/background.js"
       },
-    "permissions": ["storage"],
+    "permissions": ["storage", "activeTab", "tabs", "webRequest", "notifications", "identity"],
     "action": {
         "default_popup": "./ui/popup.html"
-      }
+      },
+    "content_scripts": [
+        {
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["./scripts/jquery-3.6.0.min.js","./scripts/content-script.js"]
+        }
+    ]
 }
