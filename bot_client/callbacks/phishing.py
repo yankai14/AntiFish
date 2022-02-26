@@ -39,7 +39,6 @@ def phishing_result_callback(update: Update, context: CallbackContext) -> int:
     isLink = re.search(regex, raw_text)
 
     if isLink:
-        # TODO Check if the link is phishing
         filtered_link = raw_text.strip('http://')
         filtered_link = filtered_link.strip('https://')
         filtered_link = filtered_link.strip('/')
