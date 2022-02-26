@@ -6,12 +6,12 @@ from utils.telegram_service import TelegramService
 def start_callback(update: Update, context: CallbackContext) -> int:
 
     msg = "*🦈 Welcome To AntiFish 🦈*\n\n"
-    msg += "Listed below are the following features you can take advantage of\n"
+    msg += "Listed below are the features you can use.\n"
     msg += "-----------------------------------------\n"
     msg += "Below are the default commands:\n"
     msg += "/stop - To stop the bot✋\n"
     msg += "-----------------------------------------\n"
-    msg += "Please contact @yankai14 for any queries\n"
+    msg += "Please contact @yankai14 for any queries.\n"
 
     keyboard = [
         [

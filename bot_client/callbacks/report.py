@@ -11,7 +11,7 @@ from utils.api_service import ApiService
 def report_callback(update: Update, context: CallbackContext) -> int:
 
     msg = "*Report Suspicious Links 👮*\n\n"
-    msg += "Please paste a link to report a link. We will investigate 🔎 on our end.\n Otherwise, click on /back to return to main menu 📖\n"
+    msg += "Please paste a link to report it. We will investigate 🔎 on our end.\n Otherwise, click on /back to return to main menu 📖\n"
 
     if not context.user_data.get(CONSTANTS.START_OVER):
         TelegramService.remove_prev_keyboard(update)
