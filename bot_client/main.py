@@ -2,6 +2,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.ext.conversationhandler import ConversationHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 
+
+import os
 from config import ENV
 from utils.constants import STATE
 from callbacks.start import start_callback
@@ -12,6 +14,7 @@ from callbacks.report import report_callback, report_result_callback
 from callbacks.about import about_callback
 
 
+PORT = int(os.environ.get('PORT', 5000))
 def start():
     updater = Updater(token = ENV.TELEGRAM_BOT_TOKEN, use_context = True)
     dispatcher = updater.dispatcher
@@ -82,8 +85,10 @@ def start():
 
     dispatcher.add_handler(conv_handler)
 
-    updater.start_polling()
-    updater.idle()
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=ENV.TELEGRAM_BOT_TOKEN)
+    updater.bot.setWebhook('https://antifish.herokuapp.com/' + ENV.TELEGRAM_BOT_TOKEN)
 
 if __name__ == '__main__':
     start()
