@@ -1,7 +1,6 @@
-const coreApi = axios.create({
-    baseURL: 'https://asia-southeast1-spry-sentry-340405.cloudfunctions.net',
-});
-  
+// const coreApi = axios.create({
+//     baseURL: 'https://asia-southeast1-spry-sentry-340405.cloudfunctions.net',
+// });
 
 document.addEventListener('click', function (e) {
     if (e.target.tagName == "A" || e.target.tagName == "a") {
@@ -9,55 +8,55 @@ document.addEventListener('click', function (e) {
         var text = e.target.text
         var parent = e.target.parentNode
 
-        var exp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-        var regex = new RegExp(exp)
+        var validUrlExp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+        var validUrlRegex = new RegExp(validUrlExp)
 
+        var stripUrlExp = /(^https?:\/\/)?([\w.]+)(\/[\w.\/]*)?/
+        var stripUrlRegex = new RegExp(stripUrlExp)
+        console.log(text)
+        var strippedUrl = stripUrlRegex.exec(url)[2]
+        var strippedText = stripUrlRegex.exec(text)[2]
+        console.log(strippedUrl)
+        console.log(strippedText)
+
+        var isFish = false
+
+        var uriComp = encodeURIComponent(strippedUrl)
         // const response = await coreApi.get("https://asia-southeast1-spry-sentry-340405.cloudfunctions.net")
         // alert(response.data)
-
-        // call api here if unsafe then inject
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("GET", "https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/validateUrl", true);
-        // xhr.onreadystatechange = function() {
-        //     if (xhr.readyState == 4) {
-        //         // JSON.parse does not evaluate the attacker's scripts.
-        //         var resp = JSON.parse(xhr.responseText);
-        //         alert(resp)
-        //     }
-        // }
-        // xhr.onload = function() {
-        //     alert("sdhifuish")
-        // }
-        // xhr.send({
-        //     "url": "https://www.goldmansachs.com.sg/"
-        // });
-
-        // encodeURIComponent(flskdj)
-
         $.ajax({
             type: 'GET',
-            url: 'https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/validateUrl?url=https%3A%2F%2Fwww.goldmansachs.com.sg%2F',
-            // dataType: 'json',
-            // crossDomain: true,
+            url: 'https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/validateUrl?url=' + uriComp,
             success: function(responseData, textStatus, jqXHR) {
-                var value = responseData.fish;
-                alert(value)
+                console.log(responseData)
+                isFish = responseData.fish
+                if (isFish) {
+                    console.log("i am a fish")
+                    injectUnsafeBadge(parent, e.target.nextSibling)
+                    e.preventDefault()
+                }
             },
             error: function (responseData, textStatus, errorThrown) {
-                alert('GET failed.');
+                console.log('GET failed.')
             }
         });
-        
-        if (regex.test(text)) {
-            if (url == text || url == text + "/") {
-                console.log("valid")
+
+        if (!isFish && validUrlRegex.test(text)) {
+            if (strippedUrl == strippedText) {
+                console.log("URL == text")
             } else {
+                isFish = true
+                console.log("URL and text are different, possible phishing detected!")
                 injectUnsafeBadge(parent, e.target.nextSibling)
-                console.log("Phishing detected!")
                 e.preventDefault()
             }
         } else {
-            console.log("No match");
+            console.log("Text is not a URL")
+        }
+        
+        if (isFish) {
+            injectUnsafeBadge(parent, e.target.nextSibling)
+            e.preventDefault()
         }
 
         e.stopPropagation();
