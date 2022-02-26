@@ -11,22 +11,15 @@ from utils.api_service import ApiService
 def report_callback(update: Update, context: CallbackContext) -> int:
 
     msg = "*Report Suspicious Links 👮*\n\n"
-    msg += "Please paste a link to report a link. We will investigate on our end. Otherwise, click on the back button to return to main menu\n"
+    msg += "Please paste a link to report a link. We will investigate 🔎 on our end.\n Otherwise, click on /back to return to main menu 📖\n"
 
     if not context.user_data.get(CONSTANTS.START_OVER):
         TelegramService.remove_prev_keyboard(update)
 
-    keyboard = [
-        [
-            InlineKeyboardButton(text="Back", callback_data=STATE.BACK.value),
-        ]
-    ]
-
-    reply_markup = InlineKeyboardMarkup(keyboard)
     if not context.user_data.get(CONSTANTS.START_OVER):
-        TelegramService.edit_reply_text(msg, update, reply_markup)
+        TelegramService.edit_reply_text(msg, update)
     else:
-        TelegramService.reply_text(msg, update, reply_markup)
+        TelegramService.reply_text(msg, update)
     context.user_data[CONSTANTS.START_OVER] = True
 
     return STATE.REPORT.value
@@ -44,11 +37,11 @@ def report_result_callback(update: Update, context: CallbackContext) -> int:
         status_code =  ApiService.report_url(raw_text)
 
         if status_code == HTTPStatus.OK:
-            TelegramService.reply_text("The link has successfully been reported", update)
+            TelegramService.reply_text("The link has successfully been reported 👍.", update)
         else:
-            TelegramService.reply_text("Error occurred while reporting the link", update)
+            TelegramService.reply_text("Error occurred while reporting the link 👎.", update)
 
         return report_callback(update, context)
     else:
-        TelegramService.reply_text("Please paste a valid link", update)
+        TelegramService.reply_text("Please paste a valid link 🎐", update)
         return report_callback(update, context)

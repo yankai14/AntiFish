@@ -7,8 +7,10 @@ class STATE(Enum):
     FEATURE_SELECTION = 1
 
     PHISHING_CHECK = 10
+    PHISING_GET_LINK = 11
 
     REPORT = 20
+    REPORT_GET_LINK = 21
 
     ABOUT = 30
 
@@ -16,8 +18,9 @@ class STATE(Enum):
     SHOWING = 1000
     BACK = 1001
     STOPPING = 1002
-    END = 1003
     START_OVER = 1004
+
+    END = -1.
 
 
 class CONSTANTS:

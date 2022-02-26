@@ -16,6 +16,10 @@ def about_callback(update: Update, context: CallbackContext) -> int:
     msg += "Our AntiFish extension checks for telltale signs of phishing links and cautions users about possible harmful links.\n"
     msg += "Phishing is an attack often used to steal user data. It baits users into clicking a malicious link that pretends to be a trusted entity. A successful attack could result in stolen personal information, unauthorized purchases, and other devastating outcomes.\n"
     msg += "-----------------------------------------\n"
+    msg += "Our tools includes:\n"
+    msg += "1. AntiFish Telegram Bot @anti_fish_bot\n"
+    msg += "2. AntiFish Brpwser Extension: AntiFish\n"
+    msg += "-----------------------------------------\n"
     msg += "Please contact @yankai14 for any queries.\n"
 
     keyboard = [

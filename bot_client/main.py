@@ -6,7 +6,7 @@ from config import ENV
 from utils.constants import STATE
 from callbacks.start import start_callback
 from callbacks.stop import stop_callback
-from callbacks.back_main_menu import back_main_menu_callback
+from callbacks.back_main_menu import back_main_menu_callback, back_main_menu_command_callback
 from callbacks.phishing import phishing_callback, phishing_result_callback
 from callbacks.report import report_callback, report_result_callback
 from callbacks.about import about_callback
@@ -20,19 +20,20 @@ def start():
         entry_points= [CallbackQueryHandler(phishing_callback, pattern=f"^{str(STATE.PHISHING_CHECK.value)}$")],
         states = {
             STATE.PHISHING_CHECK.value: [
-                MessageHandler(Filters.text, phishing_result_callback)
-
+                MessageHandler(Filters.text & ~ Filters.command, phishing_result_callback)
             ]
         },
         fallbacks = [
             CommandHandler('stop', stop_callback),
-            CallbackQueryHandler(
-                back_main_menu_callback,
-                pattern=f"^{STATE.BACK.value}$"
-            ), 
+            # CallbackQueryHandler(
+            #     back_main_menu_callback,
+            #     pattern=f"^{STATE.BACK.value}$"
+            # ), 
+            CommandHandler("back", back_main_menu_command_callback)
         ],
         map_to_parent={
             STATE.BACK.value: STATE.FEATURE_SELECTION.value,
+            STATE.END.value: STATE.END.value
         }
     )
 
@@ -40,19 +41,21 @@ def start():
         entry_points= [CallbackQueryHandler(report_callback, pattern=f"^{str(STATE.REPORT.value)}$")],
         states = {
             STATE.REPORT.value: [
-                MessageHandler(Filters.text, report_result_callback)
+                MessageHandler(Filters.text & ~ Filters.command, report_result_callback)
 
             ]
         },
         fallbacks = [
             CommandHandler('stop', stop_callback),
-            CallbackQueryHandler(
-                back_main_menu_callback,
-                pattern=f"^{STATE.BACK.value}$"
-            ), 
+            # CallbackQueryHandler(
+            #     back_main_menu_callback,
+            #     pattern=f"^{STATE.BACK.value}$"
+            # ), 
+            CommandHandler("back", back_main_menu_command_callback)
         ],
         map_to_parent={
             STATE.BACK.value: STATE.FEATURE_SELECTION.value,
+            STATE.END.value: STATE.END.value
         }
     )
 
@@ -67,12 +70,11 @@ def start():
                 report_conv,
                 CallbackQueryHandler(about_callback, pattern=f"^{str(STATE.ABOUT.value)}$")
             ],
-            STATE.STOPPING.value: [CommandHandler("stop", stop_callback)],
         },
         fallbacks=[
             CommandHandler("stop", stop_callback),
             CallbackQueryHandler(
-                back_main_menu_callback,
+                start_callback,
                 pattern=f"^{STATE.BACK.value}$"
             ),
         ]

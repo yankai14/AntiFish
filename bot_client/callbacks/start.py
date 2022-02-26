@@ -5,7 +5,7 @@ from utils.telegram_service import TelegramService
 
 def start_callback(update: Update, context: CallbackContext) -> int:
 
-    msg = "*Welcome To AntiFish*\n\n"
+    msg = "*🦈 Welcome To AntiFish 🦈*\n\n"
     msg += "Listed below are the following features you can take advantage of\n"
     msg += "-----------------------------------------\n"
     msg += "Below are the default commands:\n"
@@ -17,7 +17,7 @@ def start_callback(update: Update, context: CallbackContext) -> int:
         [
             InlineKeyboardButton(text="Phishing Check", callback_data=str(STATE.PHISHING_CHECK.value)),
             InlineKeyboardButton(text="Report Suspicious Links", callback_data=str(STATE.REPORT.value)),
-            InlineKeyboardButton(text="Help", callback_data=str(STATE.ABOUT.value)),
+            InlineKeyboardButton(text="About", callback_data=str(STATE.ABOUT.value)),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
