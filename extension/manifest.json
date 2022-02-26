@@ -1,0 +1,13 @@
+{
+    "name": "AntiFish",
+    "description": "Chrome Extension for Anti Phishing!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "./scripts/background.js"
+      },
+    "permissions": ["storage"],
+    "action": {
+        "default_popup": "./ui/popup.html"
+      }
+}
