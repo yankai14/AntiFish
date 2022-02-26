@@ -6,14 +6,15 @@
     "background": {
         "service_worker": "./scripts/background.js"
       },
-    "permissions": ["storage", "activeTab", "tabs", "webRequest", "notifications", "identity"],
+    "permissions": ["storage", "activeTab", "tabs", "webRequest", "notifications", "identity", "https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/"],
+    "host_permissions": ["https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/*", "https://*/"],
     "action": {
         "default_popup": "./ui/popup.html"
       },
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*"],
-            "js": ["./scripts/jquery-3.6.0.min.js","./scripts/content-script.js"]
+            "js": ["./scripts/axois.min.js", "./scripts/jquery-3.6.0.min.js","./scripts/content-script.js"]
         }
     ]
 }
