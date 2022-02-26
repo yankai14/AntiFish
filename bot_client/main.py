@@ -14,7 +14,7 @@ from callbacks.report import report_callback, report_result_callback
 from callbacks.about import about_callback
 
 
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', 80))
 def start():
     updater = Updater(token = ENV.TELEGRAM_BOT_TOKEN, use_context = True)
     dispatcher = updater.dispatcher
@@ -87,8 +87,9 @@ def start():
 
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
-                          url_path=ENV.TELEGRAM_BOT_TOKEN)
-    updater.bot.setWebhook('https://antifish.herokuapp.com/' + ENV.TELEGRAM_BOT_TOKEN)
+                          url_path=ENV.TELEGRAM_BOT_TOKEN,
+                          webhook_url='https://antifish.herokuapp.com/' + ENV.TELEGRAM_BOT_TOKEN
+                          )
 
 if __name__ == '__main__':
     start()
