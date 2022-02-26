@@ -4,9 +4,7 @@ document.addEventListener('click', function(e) {
         var text = e.target.text;
         
         var exp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-        var regex = new RegExp(exp);
-
-
+        var regex = new RegExp(exp)
 
         if (regex.test(text)) {
             if (url == text || url == text + "/"){
