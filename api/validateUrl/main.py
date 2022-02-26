@@ -1,7 +1,10 @@
 import os
+from wsgiref.headers import _HeaderList
 from google.cloud import firestore
 import json
 from difflib import SequenceMatcher
+from urllib.parse import unquote
+
 
 db = firestore.Client()
 
@@ -56,12 +59,17 @@ def process(request):
         # header and caches preflight response for an 3600s
         headers = {
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Methods': 'GET',
             'Access-Control-Allow-Headers': 'Content-Type',
             'Access-Control-Max-Age': '3600'
         }
 
         return ('', 204, headers)
-    request_json = request.get_json()
+
+    # Set CORS headers for the main request
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+    request_json = {"url":unquote(request.args.get('url'))}
     rrp = RequestResponseProcessor(request_json)
-    return rrp.orchestrate()
+    return (str(rrp.orchestrate()),200, headers )
