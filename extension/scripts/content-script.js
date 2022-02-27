@@ -22,8 +22,6 @@ document.addEventListener('click', function (e) {
         var isFish = false
 
         var uriComp = encodeURIComponent(strippedUrl)
-        // const response = await coreApi.get("https://asia-southeast1-spry-sentry-340405.cloudfunctions.net")
-        // alert(response.data)
         $.ajax({
             type: 'GET',
             url: 'https://asia-southeast1-spry-sentry-340405.cloudfunctions.net/validateUrl?url=' + uriComp,
